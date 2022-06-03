@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -59,7 +60,7 @@ public class DataController {
 
     @PostMapping(value = "/newdata", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
-    public String newData(@RequestParam("foto") MultipartFile f, HttpServletRequest r)
+    public RedirectView newData(@RequestParam("foto") MultipartFile f, HttpServletRequest r)
             throws ParseException, Exception {
         Data d = new Data();
 
@@ -73,14 +74,14 @@ public class DataController {
         d.setFoto(img);
 
         dataController.create(d);
-        return "created";
+        return new RedirectView("");
     }
 
     @GetMapping("/delete/{id}")
-    @ResponseBody
+    
     public String deleteData(@PathVariable("id") int id) throws Exception {
         dataController.destroy(id);
-        return "deleted";
+        return "redirect:/";
     }
 
     @RequestMapping("/edit/{id}")
@@ -92,7 +93,7 @@ public class DataController {
 
     @PostMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
-    public String updateDummyData(@RequestParam("foto") MultipartFile f, HttpServletRequest r)
+    public RedirectView updateDummyData(@RequestParam("foto") MultipartFile f, HttpServletRequest r)
             throws ParseException, Exception {
         Data d = new Data();
 
@@ -107,6 +108,10 @@ public class DataController {
         d.setFoto(img);
 
         dataController.edit(d);
-        return "updated";
+        return new RedirectView("");
+    }
+
+    private void Redirect(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
